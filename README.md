@@ -67,24 +67,17 @@ Notes:
 ## API
 
 ### Constructor
+
 ``` js
 new Linfun([ [t1, v1], [t2, v2], ...[tn, vn] ])
 ```
 
-### Static or Class methods
-``` js
-// Concatenates multiple Linfuns in increasing t order
-Linfun.concat(lf1, lf2, ...lfn)
-
-// Evaluates fn on multiple Linfuns, returns new Linfun
-Linfun.eval(fn, defaultValue, lf1, lf2, ...lfn)
-```
-
 ### Instance methods
+
 ``` js
-lf.length // Returns the length of the internal array
-lf.first  // Returns first coordinate of internal array
-lf.last   // Returns last coordinate of internal array
+lf.length     // Returns the length of the internal array
+lf.first      // Returns first coordinate of internal array
+lf.last       // Returns last coordinate of internal array
 lf.toString() // Returns string representation of this Linfun
 
 lf.map(fn)
@@ -100,4 +93,21 @@ lf.split(tSplit)
 // Returns [lf1, lf2]
 // where lf1 contains all coordinates with t < tSplit
 // and lf2 contains all coordinates with tSplit <= t
+```
+
+### Static or Class methods
+
+``` js
+Linfun.concat(lf1, lf2, ...lfn)
+// Concatenates multiple Linfuns in increasing t order
+// Any later coords will be ignored if they have non-increasing t
+// If t at end of lfi matches t at start of lf(i+1),
+// and values are different,
+// then a small delay in t will be introduced, similar to a step function
+
+Linfun.eval(fn, defaultValue, lf1, lf2, ...lfn)
+// Evaluates fn on multiple Linfuns, returns new Linfun
+// e.g. for three Linfuns (lf1, lf2, lf3) supply a function of the form
+// (v1, v2, v3) => number
+// Will only evaluate at coordinates that exist in any inputted Linfun
 ```
