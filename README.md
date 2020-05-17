@@ -1,43 +1,63 @@
 ## linfun
+*Class Linfun - for Continuous Piecewise Linear Functions*
 
 [![Build status](https://travis-ci.org/davidryan59/linfun.svg?master)](https://travis-ci.org/davidryan59)
 
-Class Linfun - for Continuous Piecewise Linear Functions
+See Wikipedia article: https://en.wikipedia.org/wiki/Piecewise_linear_function
 
-https://en.wikipedia.org/wiki/Piecewise_linear_function
+### Quick start
 
-Instances are  *continuous and piecewise* linear functions
-Expressed in terms of a doubly-nested array of coords [
+In project:
+``` sh
+npm i linfun
+```
+
+In Javascript file:
+``` js
+import Linfun from 'linfun'
+const lf = new Linfun([
+  [1, 2],
+  [3, 4]
+])
+```
+
+These coords [t, v] define a function v = f(t) that is:
+- constant v=2, below t=1
+- constant v=4, above t=3
+- increases from v=2 to v=4, between t=1 and t=3
+
+### Description
+
+Instances of Linfun are numeric functions from real numbers to real numbers. (A real number is any finite decimal or integer value. A real number can be positive, zero, or negative.) Linfuns are:
+- piecewise - the function has separate definitions on separate intervals of the real number line
+- linear - each definition on an interval is a straight line segment (v = at + b)
+- continuous - if two intervals are adjacent, then where they meet the definitions match
+
+Linfuns are defined by a series of coordinates [t, v], where v is the value of the Linfun at t. (Although t could represent time, it does not have to.) Then the whole Linfun is defined by [t1, v1], [t2, v2], ...[tn, vn] where each t must be **strictly larger** than the previous t.
+
+The value of the Linfun is then:
+- v1, from -Infinity to t1
+- vn, from tn to +Infinity
+- vi, at ti
+- use linear interpolation from vi to v(i+1), between ti and t(i+1)
+
+The general constructor is:
+``` js
+const lf = new Linfun([
   [t1, v1],
   [t2, v2],
-  [t3, v3],
   ...
   [tn, vn]
-]
-where all t, v are finite numbers (decimal or integer)
-and t must be strictly increasing
-
-The function defined is constant below t1 with value v1,
-and constant above tn with value vn
-Between ti and t(i+1) it linearly interpolates between vi and v(i+1)
-
-Degenerate cases for n = 0, 1 are constant functions, with value 0 (n=0) or v1 (n=1)
-
-Use a constructor of this format:
-lf = new Linfun([
-  [-0.5, -1],
-  [1.1, 304],
-  [1684, 0.0001]
 ])
+```
 
-Linfuns are immutable, to simplify many calculations, they cannot be changed once created.
-Operations on Linfuns will return new instances of Linfun.
-
-### CLI commands
-
-- `npm i linfun` - Install this module in your project
-
-- `npm run lint` - Run lint on lib folder
-- `npm run test` - Run testing on lib folder, with watching and coverage
-- `npm run build` - Build the code in lib folder into ES5 in the dist folder
-- `npm run examples` - Run the examples, after building
+Notes:
+- n will be a non-negative integer
+- for n=0, function is zero everywhere
+- for n=1, function is constant v1 everywhere
+- if ti is not strictly greater than t(i-1), then [ti, vi] will be **ignored**
+- After construction, the set of coords is available in `lf.array` which is **an array of arrays of finite real numbers**
+- All of the following are **immutable** and cannot be changed after construction:
+  - `lf`
+  - `lf.array`
+  - `lf.array[i]`
