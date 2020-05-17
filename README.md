@@ -110,4 +110,14 @@ Linfun.eval(fn, defaultValue, lf1, lf2, ...lfn)
 // e.g. for three Linfuns (lf1, lf2, lf3) supply a function of the form
 // (v1, v2, v3) => number
 // Will only evaluate at coordinates that exist in any inputted Linfun.
+
+Linfun.add(lf1, lf2, ...lfn)
+// Add together multiple Linfuns, coordinate-wise
+// Since addition is linear, this is exact addition of underlying functions.
+
+Linfun.mult(lf1, lf2, ...lfn)
+// Multiply together multiple Linfuns, coordinate-wise
+// Since multiplication is NOT linear,
+// this is only an approximation of multiplication of underlying functions.
+// The finer-grained the Linfuns are, the more accurate multiplication becomes.
 ```
