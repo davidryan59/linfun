@@ -57,8 +57,9 @@ Notes:
 - n will be a non-negative integer
 - for n=0, function is zero everywhere
 - for n=1, function is constant v1 everywhere
+- for [t, v] if either t or v is not a finite number, then coord will be **ignored**
 - if ti is not strictly greater than t(i-1), then [ti, vi] will be **ignored**
-- After construction, the set of coords is available in `lf.array` which is **an array of arrays of finite real numbers**
+- After construction, the set of coords is available in `lf.array` which is **an array of coords**, each coord of the form [t, v], with t and v finite real numbers
 - All of the following are **immutable** and cannot be changed after construction:
   - `lf`
   - `lf.array`
@@ -70,20 +71,28 @@ Notes:
 
 ``` js
 new Linfun([ [t1, v1], [t2, v2], ...[tn, vn] ])
+// ti will be strictly greater than t(i-1),
+// or else [ti, vi] will be ignored
 ```
 
 ### Instance methods
 
 ``` js
+lf.array
+// Returns the (immutable) internal array, which is an
+// array of coordinates, each coordinate of form [t, v]
+
+lf.id         // Returns integer id of this Linfun
 lf.length     // Returns the length of the internal array
-lf.first      // Returns first coordinate of internal array
-lf.last       // Returns last coordinate of internal array
+lf.first      // Returns (immutable) first coordinate of internal array
+lf.last       // Returns (immutable) last coordinate of internal array
+lf.markAsLf   // Returns true
 lf.toString() // Returns string representation of this Linfun
 
 lf.map(fn)
 // Returns new Linfun with coordinates mapped by fn
-// To map only v, use (t, v) => number
-// To map both t and v, use (t, v) => [number, number]
+// To map only v, use: fn = (t, v) => number
+// To map both t and v, use: fn = (t, v) => [number, number]
 
 lf.linearMap(tAdd, tMult, vAdd, vMult)
 // Linear mapping on a Linfun, according to:
@@ -100,24 +109,30 @@ lf.split(tSplit)
 ``` js
 Linfun.concat(lf1, lf2, ...lfn)
 // Concatenates multiple Linfuns in increasing t order
-// Any later coords will be ignored if they have non-increasing t
-// If ti at end of lfi matches t(i+1) at start of lf(i+1),
-// and values are different,
+// Similar to calling new Linfun(...) on concatenation of lfi.array,
+// so any later coords will be ignored if they have non-increasing t
+// However, between lf(i-1) and lfi,
+// If t(i-1) at end of lf(i-1) matches ti at start of lfi,
+// and values v(i-1) and vi are distinct,
 // then a small delay in t(i+1) will be introduced, similar to a step function
+// giving an extra coord of form [ti + deltaT, vi]
+// deltaT is set to 1e-8
 
 Linfun.eval(fn, defaultValue, lf1, lf2, ...lfn)
-// Evaluates fn on multiple Linfuns, returns new Linfun
-// e.g. for three Linfuns (lf1, lf2, lf3) supply a function of the form
-// (v1, v2, v3) => number
-// Will only evaluate at coordinates that exist in any inputted Linfun.
+// Evaluates fn on values from multiple Linfuns, returns new Linfun
+// Final set of t is any t appearing in any of the lfi
+// Default value only used for an invalid lfi input
+// Example: use: fn = (v1, v2) => v1 - v2
+// to subtract lf2 from lf1
+// which will be calculated at any t appearing in lf1 or lf2
 
 Linfun.add(lf1, lf2, ...lfn)
-// Add together multiple Linfuns, coordinate-wise
-// Since addition is linear, this is exact addition of underlying functions.
+// Add together multiple Linfuns, coordinate by coordinate.
+// Since addition is linear, this is an exact addition of the underlying functions.
 
 Linfun.mult(lf1, lf2, ...lfn)
-// Multiply together multiple Linfuns, coordinate-wise
-// Since multiplication is NOT linear,
-// this is only an approximation of multiplication of underlying functions.
+// Multiply together multiple Linfuns, coordinate by coordinate.
+// Since multiplication is NOT linear, this is only an approximation
+// of multiplying the underlying functions.
 // The finer-grained the Linfuns are, the more accurate multiplication becomes.
 ```
