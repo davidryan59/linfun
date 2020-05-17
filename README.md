@@ -1,18 +1,19 @@
 ## linfun
-*Class Linfun - for Continuous Piecewise Linear Functions*
+
+Class **Linfun** - for *Continuous Piecewise Linear Functions* - see Wikipedia article: https://en.wikipedia.org/wiki/Piecewise_linear_function
 
 [![Build status](https://travis-ci.org/davidryan59/linfun.svg?master)](https://travis-ci.org/davidryan59)
-
-See Wikipedia article: https://en.wikipedia.org/wiki/Piecewise_linear_function
 
 ### Quick start
 
 In project:
+
 ``` sh
 npm i linfun
 ```
 
 In Javascript file:
+
 ``` js
 import Linfun from 'linfun'
 const lf = new Linfun([
@@ -42,6 +43,7 @@ The value of the Linfun is then:
 - use linear interpolation from vi to v(i+1), between ti and t(i+1)
 
 The general constructor is:
+
 ``` js
 const lf = new Linfun([
   [t1, v1],
@@ -61,3 +63,41 @@ Notes:
   - `lf`
   - `lf.array`
   - `lf.array[i]`
+
+## API
+
+### Constructor
+``` js
+new Linfun([ [t1, v1], [t2, v2], ...[tn, vn] ])
+```
+
+### Static or Class methods
+``` js
+// Concatenates multiple Linfuns in increasing t order
+Linfun.concat(lf1, lf2, ...lfn)
+
+// Evaluates fn on multiple Linfuns, returns new Linfun
+Linfun.eval(fn, defaultValue, lf1, lf2, ...lfn)
+```
+
+### Instance methods
+``` js
+lf.length // Returns the length of the internal array
+lf.first  // Returns first coordinate of internal array
+lf.last   // Returns last coordinate of internal array
+lf.toString() // Returns string representation of this Linfun
+
+lf.map(fn)
+// Returns new Linfun with coordinates mapped by fn
+// To map only v, use (t, v) => number
+// To map both t and v, use (t, v) => [number, number]
+
+lf.linearMap(tAdd, tMult, vAdd, vMult)
+// Linear mapping on a Linfun, according to:
+// (t, v) => [tAdd + tMult * t, vAdd + vMult * v]
+
+lf.split(tSplit)
+// Returns [lf1, lf2]
+// where lf1 contains all coordinates with t < tSplit
+// and lf2 contains all coordinates with tSplit <= t
+```
