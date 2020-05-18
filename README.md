@@ -1,8 +1,10 @@
 ## linfun
 
-Class **Linfun** - for *Continuous Piecewise Linear Functions* - see Wikipedia article: https://en.wikipedia.org/wiki/Piecewise_linear_function
-
+[![npm version](https://badge.fury.io/js/linfun.svg)](https://badge.fury.io/js/linfun)
+[![Downloads per month](https://img.shields.io/npm/dy/linfun.svg?maxAge=31536000)](https://github.com/davidryan59/linfun)
 [![Build status](https://travis-ci.org/davidryan59/linfun.svg?master)](https://travis-ci.org/davidryan59)
+
+Use class **Linfun** for *Continuous Piecewise Linear Functions* - see Wikipedia article: https://en.wikipedia.org/wiki/Piecewise_linear_function
 
 ### Quick start
 
@@ -69,18 +71,17 @@ Notes:
 
 ## API
 
-### Importing
+### Importing & Constructor
 ``` js
 import { Linfun } from 'linfun' // The class Linfun
 import { isLinfun } from 'linfun' // A utility function to check if parameter is a Linfun
-```
 
-### Constructor
-
-``` js
-new Linfun([ [t1, v1], [t2, v2], ...[tn, vn] ])
+const lf = new Linfun([ [t1, v1], [t2, v2], ...[tn, vn] ])
 // ti will be strictly greater than t(i-1),
 // or else [ti, vi] will be ignored
+
+console.log(isLinfun(lf)) // true
+console.log(isLinfun('another thing')) // false
 ```
 
 ### Instance methods
