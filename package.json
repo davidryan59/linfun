@@ -9,7 +9,7 @@
   },
   "repository": "git@github.com:davidryan59/linfun.git",
   "license": "ISC",
-  "main": "dist/src/Linfun.js",
+  "main": "dist/src/index.js",
   "scripts": {
     "lint": "eslint lib",
     "lint:fix": "eslint lib --fix",
@@ -17,7 +17,7 @@
     "test:ppo": "jest --test-path-pattern=lib/test",
     "build": "rm -rf dist && mkdir -p dist && babel lib --out-dir dist",
     "examples": "cd ./dist/examples && node run.js",
-    "prepublishOnly": "npm run lint && npm run build && npm run test:ppo"
+    "prepublishOnly": "npm run lint && npm run test:ppo && npm run build"
   },
   "dependencies": {
     "is-object": "^1.0.1",

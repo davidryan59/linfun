@@ -15,11 +15,13 @@ npm i linfun
 In Javascript file:
 
 ``` js
-import Linfun from 'linfun'
+import { Linfun, isLinfun } from 'linfun'
 const lf = new Linfun([
   [1, 2],
   [3, 4]
 ])
+console.log(lf)  // Linfun { id: 0, array: [ [ 1, 2 ], [ 3, 4 ] ] }
+console.log(isLinfun(lf))  // true
 ```
 
 These coords [t, v] define a function v = f(t) that is:
@@ -66,6 +68,12 @@ Notes:
   - `lf.array[i]`
 
 ## API
+
+### Importing
+``` js
+import { Linfun } from 'linfun' // The class Linfun
+import { isLinfun } from 'linfun' // A utility function to check if parameter is a Linfun
+```
 
 ### Constructor
 
