@@ -96,9 +96,12 @@ lf.id         // Returns integer id of this Linfun
 lf.length     // Returns the length of the internal array, guaranteed to be at least 1
 lf.first      // Returns (immutable) first coordinate of internal array
 lf.last       // Returns (immutable) last coordinate of internal array
-lf.tMin       // Returns minimum t, which is t from lf.first
-lf.tMax       // Returns maximum t, which is t from lf.last
-lf.tStep      // Returns width in t, which is lf.tMax - lf.tMin
+lf.tMin       // Returns minimum t across all coords, which is t from lf.first
+lf.tMax       // Returns maximum t across all coords, which is t from lf.last
+lf.tStep      // Returns difference between max and min t
+lf.vMin       // Returns minimum v across all coords
+lf.vMax       // Returns maximum v across all coords
+lf.vStep      // Returns difference between max and min v
 lf.markAsLf   // Returns true
 lf.toString() // Returns string representation of this Linfun
 
