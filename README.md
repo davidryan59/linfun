@@ -59,8 +59,9 @@ const lf = new Linfun([
 
 Notes:
 - n will be a non-negative integer
-- for n=0, function is zero everywhere
-- for n=1, function is constant v1 everywhere
+- for n=0, returned Linfun has a single coord [0, 0] and is zero everywhere
+- for n=1, returned Linfun has a single coord [t1, v1] and is constant v1 everywhere
+- lf.length is guaranteed to be a positive integer, [0, 0] is added if no valid coords inputted
 - for [t, v] if either t or v is not a finite number, then coord will be **ignored**
 - if ti is not strictly greater than t(i-1), then [ti, vi] will be **ignored**
 - After construction, the set of coords is available in `lf.array` which is **an array of coords**, each coord of the form [t, v], with t and v finite real numbers
@@ -92,7 +93,7 @@ lf.array
 // array of coordinates, each coordinate of form [t, v]
 
 lf.id         // Returns integer id of this Linfun
-lf.length     // Returns the length of the internal array
+lf.length     // Returns the length of the internal array, guaranteed to be at least 1
 lf.first      // Returns (immutable) first coordinate of internal array
 lf.last       // Returns (immutable) last coordinate of internal array
 lf.markAsLf   // Returns true
