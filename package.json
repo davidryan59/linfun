@@ -10,6 +10,9 @@
   "repository": "git@github.com:davidryan59/linfun.git",
   "license": "ISC",
   "main": "dist/src/index.js",
+  "files": [
+    "dist/src"
+  ],
   "scripts": {
     "lint": "eslint lib",
     "lint:fix": "eslint lib --fix",
